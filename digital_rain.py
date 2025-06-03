@@ -19,7 +19,11 @@ def digital_rain(stdscr, speed=0.05):
                 if columns[i] > 0:
                     for j in range(columns[i]):
                         char = chr(random.randint(33, 126))
-                        stdscr.addch((height - j) % height, i, char, curses.A_BOLD)
+                        try:
+                            stdscr.addch((height - j) % height, i, char, curses.A_BOLD)
+                        except curses.error:
+                            # Ignore drawing errors (e.g., bottom-right corner)
+                            pass
                     columns[i] -= 1
             stdscr.refresh()
             time.sleep(speed)
